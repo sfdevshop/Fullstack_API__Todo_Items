@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
+
+import LoginScreen from './Loginscreen';
+import UploadPage from './UserPage';
 
 import './App.css';
-import Loginscreen from './LoginScreen';
-//import UserPage from './UserPage';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 
 class App extends Component {
 
 
     constructor(props) {
-
         super(props);
-
         this.state={
-            loginPage:[]
+            loginPage:[],
+            userScreen:[]
         }
     }
 
@@ -28,27 +29,29 @@ class App extends Component {
     componentWillMount() {
 
         var loginPage =[];
-        loginPage.push(<Loginscreen appContext={this}/>);
+        loginPage.push(<LoginScreen appContext={this}/>);
 
         this.setState({
             loginPage:loginPage
         })
+
     }
 
     render() {
-
-      return (
-          <div className="App">
-              {this.state.loginPage}
-          </div>
-      );
+        return (
+            <div className="App">
+                {this.state.loginPage}
+                {this.state.userScreen}
+            </div>
+        );
     }
 
 }
 
 const style = {
-  margin: 15,
+    margin: 15,
 };
+
 
 export default App;
 

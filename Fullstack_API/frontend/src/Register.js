@@ -104,7 +104,7 @@ class Register extends Component {
                            />
                          <br/>
                          <TextField
-                           hintText="Enter your User Name"
+                           hintText="Enter your Username"
                            floatingLabelText="Username"
                            onChange = {(event,newValue) => this.setState({username:newValue})}
                            />

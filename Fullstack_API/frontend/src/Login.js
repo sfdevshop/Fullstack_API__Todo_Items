@@ -9,10 +9,6 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-var apiBaseUrl = "http://localhost:4000/api/";
-//import axios from 'axios';
-//import UploadScreen from './UploadScreen';
-
 
 
 class Login extends Component {

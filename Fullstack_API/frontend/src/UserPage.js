@@ -7,8 +7,10 @@ import FontIcon from 'material-ui/FontIcon';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
 import LoginScreen from './Loginscreen';
+import ProfileScreen from './ProfileScreen';
+//import NoteScreen from './NoteScreen';
 
-
+/* THIS USERPAGE IS VERY SIMILAR TO UPLOAD PAGE OF GITHUB FROM TUTORIAL */
 
 class App extends Component {
 
@@ -17,11 +19,11 @@ class App extends Component {
     this.state = {draweropen: false,currentScreen:[]};
   }
 
-  componentDidMount(){
+  /*componentDidMount(){
     var currentScreen=[];
-    //currentScreen.push(<UploadScreen appContext={this.props.appContext} role={this.props.role}/>);
+    currentScreen.push(<NoteScreen appContext={this.props.appContext} role={this.props.role}/>);
     this.setState({currentScreen})
-  }
+  }*/
 
   /** Toggle opening and closing of drawer
    * @param {*} event */ 
@@ -38,13 +40,13 @@ class App extends Component {
       /*var currentScreen=[];
       currentScreen.push(<UploadScreen appContext={this.props.appContext} role={this.props.role}/>);
       this.setState({currentScreen})
-      break;
-      case "openpast":*/
-      // console.log("need to open pastfiles")
-      /*var currentScreen=[];
-      currentScreen.push(<Pastfiles appContext={this.props.appContext} role={this.props.role}/>);
-      this.setState({currentScreen})
       break;*/
+      case "profile":
+      // console.log("need to open pastfiles")
+      var currentScreen=[];
+      currentScreen.push(<ProfileScreen appContext={this.props.appContext} role={this.props.role}/>);
+      this.setState({currentScreen})
+      break;
       case "logout":
       var loginPage =[];
       loginPage.push(<LoginScreen appContext={this.props.appContext}/>);
@@ -66,21 +68,13 @@ class App extends Component {
         </MuiThemeProvider>
         <MuiThemeProvider>
           <Drawer open={this.state.draweropen}>
-            <MenuItem>
               <div>
-              User Profile
-              <a href="#"><FontIcon
-                className="material-icons drawerclosebutton"
-                color={blue500}
-                styles={{ top:10,}}
-                onClick={(event) => this.toggleDrawer(event)}
-              >clear</FontIcon></a>
-              </div>
-            </MenuItem>
-              <div>
-              <MenuItem onClick={(event) => this.handleMenuClick(event,"logout")}>
-                  Logout
-              </MenuItem>
+                  <MenuItem onClick={(event) => this.handleMenuClick(event,"profile")}>
+                      Profile
+                  </MenuItem>
+                  <MenuItem onClick={(event) => this.handleMenuClick(event,"logout")}>
+                      Logout
+                  </MenuItem>
               </div> 
           </Drawer>
         </MuiThemeProvider>

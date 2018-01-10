@@ -4,7 +4,8 @@ We place all our routes in this index.js file.  */
 
 const todosController = require('../controllers').todos;
 const todoItemsController = require('../controllers').todoItems;
-
+const usersController = require('../controllers').users;
+const noteItemsController = require('../controllers').noteItems;
 
 
 module.exports = (app) => {
@@ -18,6 +19,8 @@ module.exports = (app) => {
     	message: 'Welcome to the Todos API!',
   	}));
 
+
+  	/* INFORMATION FROM TUTORIAL - USED FOR TESTING */
 
   	/* If we post some data to /api/todos, we are telling our application to run 
 	the todosController.create function, which will take the request object, 
@@ -58,14 +61,44 @@ module.exports = (app) => {
     	'/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy
   	);
 
-
-	// For any other request method on todo items, we're going to return "Method Not Allowed"
+  	// For any other request method on todo items, we're going to return "Method Not Allowed"
   	app.all('/api/todos/:todoId/items', (req, res) =>
     	res.status(405).send({
       		message: 'Method Not Allowed',
   	}));
 
+  	/* END OF INFORMATION FROM TUTORIAL - USED FOR TESTING */
 
+
+
+  	/*	USER INFO FOR FULL STACK API!! */
+
+
+  	//create user
+  	app.post('/api/users', usersController.create);
+
+  	//Get user info
+  	app.get('/api/users/:userid', usersController.retrieve);
+
+  	//Update password
+  	app.post('/api/users/pwd/:userid', usersController.updatePwd);
+
+  	
+  	//Create/Update/Delete Notes	
+  	app.post('/api/notes/:userid', noteItemsController.create);
+  	app.post('/api/notes/:userid/items/:noteid', noteItemsController.update);
+  	app.delete('/api/notes/:userid/items/:noteid', noteItemsController.destroy);
+
+  	// For any other request method on todo items, we're going to return "Method Not Allowed"
+  	app.all('/api/notes/:userId', (req, res) =>
+    	res.status(405).send({
+      		message: 'Method Not Allowed',
+  	}));
+
+
+  	/*	END OF USER INFO FOR FULL STACK API!! */
+
+	
 };
 
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
+import './App.css';
 import LoginScreen from './Loginscreen';
 import UserPage from './UserPage';
-import './App.css';
+
 
 /* Material-UI is used for designing ui of the app */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -43,88 +44,87 @@ class ProfileScreen extends Component {
   	}
 
  
-	/*isValidEmailAddress(emailAddress) {
+	isValidEmailAddress(emailAddress) {
 	    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 	    return pattern.test(emailAddress);
-	};*/
+	};
 
 
-	/*handleClick(event) {
+	handleClick(event) {
 
-		// console.log("values in register handler",role);
 		var self = this;
-		if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.username.length>0 && this.state.email.length>0 && this.state.password.length>0) {
+		if(this.state.first_name.length==0 || this.state.last_name.length==0 || this.state.username.length==0 || this.state.email.length==0 || this.state.password.length==0) {
+			alert("Input Value must not be empty!");
+		}
+		else if( !this.isValidEmailAddress(this.state.email)){
+			alert("Email format is wrong!");
+		}
+		else {
 
-		    var payload={
-		        "username": this.state.username,
-		        "password":this.state.password
-		    }
+      		var payload={
+      			"email":this.state.email,
+      		}
 
-			axios.post('/api/users/'+this.state.userid, payload)
+      		axios.post('/api/users/'+this.state.userid, payload)
+     		.then(function (response) {
 
-			.then(function (response) {
+			    console.log(response);
 
-				console.log(response);
-
-				if(response.data.code == 200) {
+			    if(response.data.code == 200) {
 					alert("Edit profile successfully!");
 				}
-				else{
-				    console.log("Did not edit profile successfully ",response.data.code);
-				}
-			})
+       			else {
+         			console.log("some error ocurred",response.data.code);
+       			}
+     		})
 
-			.catch(function (error) {
-				console.log(error);
-			});
-		}
-	}*/
+     		.catch(function (error) {
+       			console.log(error);
+     		});
+    	}
+	}
 
 
-  handleClickPwd(event) {
+  	handleClickPwd(event) {
 
-	    // console.log("values in register handler",role);
-	    var self = this;
 
-	    //To be done:check for empty values before hitting submit
-	    if( this.state.password.length>0) {
+		var self = this;
+    	//To be done:check for empty values before hitting submit
+    	if( this.state.password.length>0) {
+      		var payload={
+      			"password":this.state.password
+      		}
+      		axios.post('/api/users/pwd/'+this.state.userid, payload)
 
-		      	var payload={
-		      		"password":this.state.password
-		      	}
-		      	axios.post('/api/users/pwd/'+this.state.userid, payload)
+     		.then(function (response) {
+       			console.log(response);
 
-		     	.then(function (response) {
-		       		console.log(response);
-
-		       	if(response.data.code == 200){
-				   	alert("Edit password successfully!");
-				   	self.setState({password:""});
-		       	}
-		       	else{
-		         	console.log("Password Not successfully changed ",response.data.code);
-		       }
-		     })
-		     .catch(function (error) {
-		       console.log(error);
-		     });
-	    }
-
-	    else{
-	      	alert("Did not enter password change");
-	    }
+       			if(response.data.code == 200){
+		   			alert("Edit password successfully!");
+		   			self.setState({password:""});
+       			}
+       			else {
+         			console.log("some error ocurred",response.data.code);
+       			}
+     		})
+     		.catch(function (error) {
+       			console.log(error);
+     		});
+    	}
+    	else{
+      		alert("Input field value is missing");
+    	}
   	}
 
 
 	/* Used to toggle drawer state */
 	toggleDrawer(event){
-	  	// console.log("drawer click");
 	  	this.setState({draweropen: !this.state.draweropen})
 	}
 
+
 	/* Used to end user session and redirect the user back to login page */
 	handleLogout(event){
-	  	// console.log("logout event fired",this.props);
 	  	var loginPage =[];
 	  	loginPage.push(<LoginScreen appContext={this.props.appContext}/>);
 	  	this.props.appContext.setState({loginPage:loginPage,uploadScreen:[]})
@@ -135,7 +135,7 @@ class ProfileScreen extends Component {
 	    return (
 		    <div className="App">
 		        <div className="container">
-
+		        	<p>Welcome {this.state.user.username}</p>
 				    <center><h3>Edit Password</h3></center>
 					<MuiThemeProvider>
 						<div>          

@@ -1,106 +1,207 @@
 const User = require('../models').User;
-//const NoteItem = require('../models').NoteItem;
+const NoteItem = require('../models').NoteItem;
+
 
 module.exports = {
 
-    /* Create Users 
-    WE IMPORT MD5 TO SCRAMBLE PASSWORDS 
-    Here is more info about MD5: https://www.npmjs.com/package/md5 */
-    create(req, res) {
 
-  	   var md5=require("md5");
-  	   var pwd=md5(req.body.password); 
+    /* Create Users */
+    create(req, res) {
+    
+        var md5=require("md5");
+        var pwd=md5(req.body.password); 
 
         return User
 
             .create({
-            	username:req.body.username,
+                username:req.body.username,
                 firstname:req.body.firstname,
                 lastname:req.body.lastname,
                 password: pwd,
-            	email: req.body.email,
+                email: req.body.email,
             })
 
-            .then(todo => res.status(201).send(todo))
-            .catch(error => res.status(400).send(error));
+            .then((user) =>{return res.send({
+                "code":200,
+                "success":"Register sucessfull",
+                "user":user
+            });})
+            .catch((error) => {return res.send({
+                "code":404,
+                "success":"Register fail"
+            });});
     },
 
-    /* Find user */
+
+    /* Find user info */
     retrieve(req, res) {
 
         return User
 
             .findById(req.params.userid, {
-                /*include: [{
+                include: [{
                     model: NoteItem ,
                     as: 'noteItems',
                 }],
                 order: [
                     [{ model: NoteItem, as: 'noteItems' }, 'createdAt', 'ASC'],
-                ],*/
+                ],
             })
-            
+
             .then((user) => {
-                if (!user) {
-                    return res.status(404).send({
-                        message: 'User Not Found',
+                if(!user) {
+                    return res.send({
+                        "code":404,
+                        "success":"User do not match"
                     });
                 }
-            return res.status(200).send(user);
 
+                return res.send({
+                    "code":200,
+                    "success":"user find sucessfull",
+                    "user":user
+                });
             })
-            .catch(error => res.status(400).send(error));
+
+            .catch((error) => {return res.send({
+                  "code":404,
+                  "success":"user do not match"
+            });});
     },
 
 
-    /* Modify Password */
-    updatePwd(req, res) {
+    /* Check user and password */
+    check(req, res) {
 
         var md5=require("md5");
         var pwd=md5(req.body.password);
 
         return User
 
-        .findById(req.params.userid, {
-            /*include: [{
-                model: NoteItem,
-                as: 'noteItems',
-            }],*/
-        })
+            .findOne({
+                where: {
+                    username: req.body.username,
+                    password: pwd
+                },
+                include: [{
+                    model: NoteItem ,
+                    as: 'noteItems',
+                }],
+                order: [
+                    [{ model: NoteItem, as: 'noteItems' }, 'createdAt', 'ASC'],
+                ],
+            })
 
-        .then(user => {
-            if (!user) {
-                return res.status(404).send({
-                    message: 'user Not Found',
-                });
-            }
+            .then((user) => {
 
-            return user
-
-                .update({
-                      password: pwd || user.password,
-                })
-                .then(() => {
-                    return res.send({
-                        "code":200,
-                        "success":"Update sucessfull",
-                    });
-                })
-                .catch((error) => {
+                if(!user) {
                     return res.send({
                         "code":404,
-                        "success":"Update fail",
+                        "failure":"Username password do not match"
+                    });
+                }
+                return res.send({
+                    "code":200,
+                    "success":"login sucessfull",
+                    "user":user
+                });
+            })
+            .catch((error) => {return res.send({
+                "code":404,
+                "failure":"Username password do not match"
+            });});
+      },
+
+
+      /* Update User info */
+      update(req, res) {
+
+          var md5=require("md5");
+
+          return User
+
+              .findById(req.params.userid, {
+                  include: [{
+                      model: NoteItem,
+                      as: 'noteItems',
+                  }],
+              })
+              .then(user => {
+                  if(!user) {
+                      return res.status(404).send({
+                          message: 'user Not Found',
+                      });
+                  }
+                  return user
+                    .update({
+                        email: req.body.email || user.email,
+                    })
+                  .then(() => {
+                      return res.send({
+                      "code":200,
+                      "success":"Update sucessfull",
                   });
-            });
-        })
-        .catch((error) => {
-            return res.send({
+              })
+              .catch((error) => {
+                  return res.send({
+                      "code":404,
+                      "success":"Update fail",
+                  });
+              });
+          })
+          .catch((error) => {
+              return res.send({
                   "code":404,
-              "success":"Update fail",
-            });
-        });
+                  "success":"Update fail",
+              });
+          });
+      },
 
-  },
 
+      /* Modify Password */
+      updatePwd(req, res) {
+
+          var md5=require("md5");
+          var pwd=md5(req.body.password);
+
+          return User
+
+              .findById(req.params.userid, {
+                  include: [{
+                      model: NoteItem,
+                      as: 'noteItems',
+                  }],
+              })
+              .then(user => {
+                  if (!user) {
+                      return res.status(404).send({
+                          message: 'user Not Found',
+                      });
+                  }
+                  return user
+                      .update({
+                          password: pwd || user.password,
+                      })
+                      .then(() => {
+                          return res.send({
+                              "code":200,
+                              "success":"Update sucessfull",
+                          });
+                      })
+                      .catch((error) => {
+                          return res.send({
+                              "code":404,
+                              "success":"Update fail",
+                          });
+                      });
+                  })
+                  .catch((error) => {
+                      return res.send({
+                          "code":404,
+                            "success":"Update fail",
+                      });
+                  });
+          },
 
 };
+

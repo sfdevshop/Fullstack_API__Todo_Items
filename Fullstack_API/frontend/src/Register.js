@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
+import axios from 'axios';
+import Login from './Login';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import axios from 'axios';
-import Login from './Login';
+
 
 
 class Register extends Component {
@@ -15,11 +17,12 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state={
-            first_name:'',
-            last_name:'',
             username:'',
+            firstname:'',
+            lastname:'',
+            password:'',
             email:'',
-            password:''
+            
         }
     } /* END CONSTRUCTOR */
 
@@ -39,46 +42,54 @@ class Register extends Component {
         var self = this;
         //To be done:check for empty values before hitting submit
 
-        if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.username.length>0 && this.state.email.length>0 && this.state.password.length>0){
+        if(this.state.firstname.length==0 || this.state.lastname.length==0 || this.state.username.length==0 || this.state.email.length==0 || this.state.password.length==0) {
+            alert("Invalid input, please try again");
+        }
+        else if(!this.isValidEmailAddress(this.state.email)) {
+            alert("Email format is wrong!");
+        }
+
+        else {
+
             var payload={
-                "first_name": this.state.first_name,
-                "last_name":this.state.last_name,
                 "username": this.state.username,
+                "firstname": this.state.firstname,
+                "lastname":this.state.lastname,
+                "password":this.state.password,
                 "email":this.state.email,
-                "password":this.state.password
             }
-            console.log("First "+this.state.first_name);
-            console.log("Last "+this.state.last_name);
-            console.log("User "+this.state.username);
-            console.log("Email "+this.state.email);
-            console.log("Password "+this.state.password);
 
             axios.post('api/users', payload)
             .then(function (response) {
+
                 console.log(response);
+
                 if(response.data.code == 200) {
+
                     //  console.log("registration successfull");
                     var loginscreen=[];
                     loginscreen.push(<Login parentContext={this} appContext={self.props.appContext} role={role}/>);
                     var loginmessage = "Not Registered yet.Go to registration";
+
                     self.props.parentContext.setState({
                         loginscreen:loginscreen,
                         loginmessage:loginmessage,
                         buttonLabel:"Register",
                         isLogin:true
-                    });    
-               }
-               else{
-                  console.log("some error ocurred",response.data.code);
-               }
-           })
-           .catch(function (error) {
-              console.log("Error in registration: "+error);
-           });
-        } /* END IF LOGIN NOT MISSING INFO */
-        else{
-            alert("Input field value is missing");
-        }
+                    });   
+                    alert("Resgister successfully!"); 
+                }
+
+                else{
+                    console.log("some error ocurred",response.data.code);
+                }
+            })
+            .catch(function (error) {
+                console.log("Error in registration: "+error);
+            });
+
+        } /* END Else, valid input */
+
     } /* END HANDLECLICK */
 
 
@@ -91,28 +102,22 @@ class Register extends Component {
                     <div>
                         <AppBar title="Register" />
 
-                         <TextField
-                           hintText="Enter your First Name"
-                           floatingLabelText="First Name"
-                           onChange = {(event,newValue) => this.setState({first_name:newValue})}
-                           />
-                         <br/>
-                         <TextField
-                           hintText="Enter your Last Name"
-                           floatingLabelText="Last Name"
-                           onChange = {(event,newValue) => this.setState({last_name:newValue})}
-                           />
-                         <br/>
-                         <TextField
+                        <TextField
                            hintText="Enter your Username"
                            floatingLabelText="Username"
                            onChange = {(event,newValue) => this.setState({username:newValue})}
                            />
                          <br/>
                          <TextField
-                           hintText="Enter your User Email"
-                           floatingLabelText="Email"
-                           onChange = {(event,newValue) => this.setState({email:newValue})}
+                           hintText="Enter your First Name"
+                           floatingLabelText="First Name"
+                           onChange = {(event,newValue) => this.setState({firstname:newValue})}
+                           />
+                         <br/>
+                         <TextField
+                           hintText="Enter your Last Name"
+                           floatingLabelText="Last Name"
+                           onChange = {(event,newValue) => this.setState({lastname:newValue})}
                            />
                          <br/>
                          <TextField
@@ -122,6 +127,13 @@ class Register extends Component {
                            onChange = {(event,newValue) => this.setState({password:newValue})}
                            />
                          <br/>
+                         <TextField
+                           hintText="Enter your User Email"
+                           floatingLabelText="Email"
+                           onChange = {(event,newValue) => this.setState({email:newValue})}
+                           />
+                         <br/>
+                         
                         <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event,this.props.role)}/>
                     </div>
                 </MuiThemeProvider>

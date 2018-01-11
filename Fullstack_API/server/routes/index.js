@@ -15,6 +15,7 @@ module.exports = (app) => {
 	a welcome route at /api and a route to create todos at /api/todos. 
 	When we hit /api, we are instructing our application to send back a JSON object 
 	welcoming the user to our Todos API. */	
+    app.get('/', (req, res) => res.sendFile(`../view/index.html`));
   	app.get('/api', (req, res) => res.status(200).send({
     	message: 'Welcome to the Todos API!',
   	}));
@@ -73,16 +74,16 @@ module.exports = (app) => {
 
   	/*	USER INFO FOR FULL STACK API!! */
 
-
   	//create user
-  	app.post('/api/users', usersController.create);
-
-  	//Get user info
-  	app.get('/api/users/:userid', usersController.retrieve);
-
-  	//Update password
-  	app.post('/api/users/pwd/:userid', usersController.updatePwd);
-
+    app.post('/api/users', usersController.create);
+    //Check user's passowrd
+    app.post('/api/users/check', usersController.check);
+    //Get user info
+    app.get('/api/users/:userid', usersController.retrieve);
+    //Update user info
+    app.post('/api/users/:userid', usersController.update);
+    //Update password
+    app.post('/api/users/pwd/:userid', usersController.updatePwd);
   	
   	//Create/Update/Delete Notes	
   	app.post('/api/notes/:userid', noteItemsController.create);

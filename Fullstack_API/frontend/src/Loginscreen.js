@@ -12,8 +12,10 @@ class Loginscreen extends Component {
     /*Coinstructor with register as student and teacher on first page of frontend
     has multiple states for this file */
     constructor(props) {
+
         super(props);
         var loginButtons=[];
+
         loginButtons.push(
             <div>
                 <MuiThemeProvider>
@@ -23,6 +25,7 @@ class Loginscreen extends Component {
                 </MuiThemeProvider>
             </div>
         ) /* END PUSH */
+
         this.state={
             username:'',
             password:'',
@@ -32,15 +35,19 @@ class Loginscreen extends Component {
             userbuttonLabel:'Register',
             isLogin:true
         }
+
     } /* END CONSTRUCTOR */
 
 
     /* Set login component as default component to be displayed on first user visit
     We are passing loginscreen context as’ ‘parentContext’ prop and App.js context as ‘appContext’ prop. */
     componentWillMount() {
+
         var loginscreen=[];
         loginscreen.push(<Login parentContext={this} appContext={this.props.appContext}/>);
+
         var loginmessage = "Not registered yet, Register Now";
+
         this.setState({
             loginscreen:loginscreen,
             loginmessage:loginmessage
@@ -58,6 +65,7 @@ class Loginscreen extends Component {
 
         /* If user wants to Login */
         if(this.state.isLogin) {
+
             var loginscreen=[];
             loginscreen.push(<Register parentContext={this} appContext={this.props.appContext} role={userRole}/>);
             loginmessage = "Already registered.Go to Login";
@@ -72,12 +80,14 @@ class Loginscreen extends Component {
                     </MuiThemeProvider>
                 </div>
             )
+
             this.setState({
                 loginscreen:loginscreen,
                 loginmessage:loginmessage,
                 loginButtons:loginButtons,
                 isLogin:false
             })
+
         } /* END STATE IS LOGIN */
 
         /* Else, user wants to Register */
@@ -103,6 +113,7 @@ class Loginscreen extends Component {
                 isLogin:true
             })
         } /* END ELSE STATE IS NOT LOGIN */
+        
     } /* END HANDLECLICK */
 
 

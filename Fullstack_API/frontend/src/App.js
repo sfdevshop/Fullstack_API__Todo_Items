@@ -9,7 +9,8 @@ import LoginScreen from './Loginscreen';
 import NoteScreen from './NoteScreen';
 import UserPage from './UserPage';
 
-
+/* The parent page of all the pages/file, so we need to import dependend pages 
+and create objs */
 class App extends Component {
 
     constructor(props) {
@@ -21,7 +22,8 @@ class App extends Component {
         }
     }
 
-
+    /* We have set loginscreen as default page in componentWillMount method and passed context 
+    of app as ‘parentContext’ prop to loginscreen. */
     componentWillMount() {
 
         var loginPage =[];

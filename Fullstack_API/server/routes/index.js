@@ -76,12 +76,16 @@ module.exports = (app) => {
 
   	//create user
     app.post('/api/users', usersController.create);
+
     //Check user's passowrd
     app.post('/api/users/check', usersController.check);
+
     //Get user info
     app.get('/api/users/:userid', usersController.retrieve);
+
     //Update user info
     app.post('/api/users/:userid', usersController.update);
+    
     //Update password
     app.post('/api/users/pwd/:userid', usersController.updatePwd);
   	

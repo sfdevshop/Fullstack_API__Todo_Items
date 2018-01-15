@@ -26,10 +26,11 @@ import axios from 'axios';
 var request = require('superagent');
 
 
-
+/* Screen for user to edit their information */
 class ProfileScreen extends Component {
 
 
+	/* user information is used here to update user information */
   	constructor(props){
 
     	super(props);
@@ -50,6 +51,8 @@ class ProfileScreen extends Component {
 	};
 
 
+	/* This function was originally created to update user information like firstname, lastname, username, email and password, but 
+	decided to just have user update password. Left it in here for reference */
 	handleClick(event) {
 
 		var self = this;
@@ -85,12 +88,12 @@ class ProfileScreen extends Component {
 	}
 
 
+	/* Calls updatePwd in server/controllers/users to update password */
   	handleClickPwd(event) {
-
 
 		var self = this;
     	//To be done:check for empty values before hitting submit
-    	if( this.state.password.length>0) {
+    	if(this.state.password.length>0) {
       		var payload={
       			"password":this.state.password
       		}
@@ -131,12 +134,15 @@ class ProfileScreen extends Component {
 	}
 
 
+	/* Used to udate and chack password validity */
 	render() {
 	    return (
 		    <div className="App">
 		        <div className="container">
+
 		        	<p>Welcome {this.state.user.username}</p>
 				    <center><h3>Edit Password</h3></center>
+
 					<MuiThemeProvider>
 						<div>          
 						   	<TextField

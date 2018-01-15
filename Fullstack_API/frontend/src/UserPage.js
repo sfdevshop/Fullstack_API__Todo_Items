@@ -12,21 +12,27 @@ import FontIcon from 'material-ui/FontIcon';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
 
-
+/* UserPage in my case was the page which I needed to display after successful user 
+login which will change as per your needs. App.js is the parent component of all 
+the pages. 
+THIS APPEARS AS A BLANK SCREEN WITH CONTROL PANEL AT TOP. USED AS A DIRECTORY TO OTHER PAGES */
 /* THIS USERPAGE IS VERY SIMILAR TO UPLOAD PAGE OF GITHUB FROM TUTORIAL */
-
 class App extends Component {
+
 
     constructor(props) {
         super(props);
         this.state = {draweropen: false,currentScreen:[]};
     }
 
-    componentDidMount(){
+
+    /* https://reactjs.org/docs/react-component.html#componentdidmount */
+    componentDidMount() {
         var currentScreen=[];
         currentScreen.push(<NoteScreen appContext={this.props.appContext} role={this.props.role}/>);
         this.setState({currentScreen})
     }
+
 
     /* Toggle opening and closing of drawer */ 
     toggleDrawer(event){
@@ -35,6 +41,7 @@ class App extends Component {
     }
 
 
+    /* Sends user to screen from whatever they clicked in Control Pannel */
     handleMenuClick(event,page){
 
         switch(page) {
@@ -64,6 +71,7 @@ class App extends Component {
     }
 
 
+    /* Sends info to handleMenuClick to send user to whatever button they clicked on that they wanted to go to */
     render() {
         return (
 

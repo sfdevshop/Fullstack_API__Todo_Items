@@ -10,10 +10,11 @@ import TextField from 'material-ui/TextField';
 
 
 
-
+/* Lets user register to use API */
 class Register extends Component {
 
 
+    /* Empty variables so user can create their information */
     constructor(props) {
         super(props);
         this.state={
@@ -26,16 +27,24 @@ class Register extends Component {
         }
     } /* END CONSTRUCTOR */
 
+
+    /* Used for testing 
+    https://reactjs.org/docs/react-component.html#componentwillreceiveprops */
     componentWillReceiveProps(nextProps){
         console.log("nextProps",nextProps);
     }
 
-    /* Check Email */
+
+    /* Check Email Validation*/
     isValidEmailAddress(emailAddress) {
         var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
         return pattern.test(emailAddress);
     };
 
+
+    /* On receiving code 200 from backend we are reverting user back to login page for login 
+    I have sent context of Loginscreen.js page as parentContext prop which allows us to 
+    manipulate state variables of loginscreen from child */
     handleClick(event,role) {
         
         // console.log("values in register handler",role);
@@ -93,6 +102,9 @@ class Register extends Component {
     } /* END HANDLECLICK */
 
 
+    /* We are taking username, firstname,lastname, email and password from user and storing them in 
+    relevant state variables. We need to send these details to backend on click of submit button 
+    which is executed by handleClick function */
     render() {
         // console.log("props",this.props);
     

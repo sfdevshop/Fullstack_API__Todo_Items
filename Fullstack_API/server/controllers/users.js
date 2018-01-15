@@ -70,7 +70,7 @@ module.exports = {
     },
 
 
-    /* Check user and password */
+    /* Check user and password (used for login) */
     check(req, res) {
 
         var md5=require("md5");
@@ -113,7 +113,7 @@ module.exports = {
       },
 
 
-      /* Update User info */
+      /* Update User info (used for updating profile) */
       update(req, res) {
 
           var md5=require("md5");

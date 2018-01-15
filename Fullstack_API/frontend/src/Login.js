@@ -15,6 +15,9 @@ import MenuItem from 'material-ui/MenuItem';
 /* Login Page */
 class Login extends Component {
 
+
+    /* Constructor with loginComponent object. When information is entered, it will
+    be called to handleClick, which will send info to UserPage */
     constructor(props) {
 
         super(props);
@@ -51,10 +54,10 @@ class Login extends Component {
         }
     }
 
-
+    /* https://reactjs.org/docs/react-component.html#componentwillmount */
     componentWillMount(){
  
-        console.log("in student componentWillMount");
+        console.log("in User componentWillMount");
         var localloginComponent=[];
 
         localloginComponent.push(
@@ -63,7 +66,7 @@ class Login extends Component {
                 <div>
 
                     <TextField
-                        hintText="Enter your College Rollno"
+                        hintText="Enter your Username"
                         floatingLabelText="username"
                         onChange = {(event,newValue) => this.setState({username:newValue})}
                     />
@@ -84,7 +87,11 @@ class Login extends Component {
     }
 
 
-    /* Login Click Function */
+    /* We are storing username and password values in state variables which change on each 
+    keystroke in onClick function.We need to send user details to backend on click on 
+    submit button which will be executed in handleClick function. */
+    /* We are making a post request to backend and expecting different codes for various scenarios 
+    We are switching page from login to UserPage */
     handleClick(event) {
 
         var self = this;
@@ -127,49 +134,14 @@ class Login extends Component {
             alert("username or password is null");
         } 
     }
-
-
-    /* Change Login Page to Regiser Page */
-    handleMenuChange() {
- 
-        var loginRole;
-        var localloginComponent=[];
-        loginRole='student';
-
-        localloginComponent.push(
-            <MuiThemeProvider>
-                <div>
-
-                    <TextField
-                        hintText="Enter your College Rollno"
-                        floatingLabelText="Student Id"
-                        onChange = {(event,newValue) => this.setState({username:newValue})}
-                    />
-                    <br/>
-                    <TextField
-                        type="password"
-                        hintText="Enter your Password"
-                        floatingLabelText="Password"
-                        onChange = {(event,newValue) => this.setState({password:newValue})}
-                    />
-                    <br/>
-                    <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-                </div>
-            </MuiThemeProvider>
-        )
-        this.setState({
-            loginComponent:localloginComponent,
-        })
-    }
+    
 
 
     render() {
         return (
             <div>
                 <MuiThemeProvider>
-                    <AppBar
-                        title="Login"
-                    />
+                    <AppBar title="Login" />
                 </MuiThemeProvider>
                 {this.state.loginComponent}
             </div>

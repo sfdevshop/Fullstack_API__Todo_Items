@@ -3,6 +3,7 @@ const NoteItem = require('../models').NoteItem;
 
 module.exports = {
 
+
     /* Create New Notes */
     create(req, res) {
 

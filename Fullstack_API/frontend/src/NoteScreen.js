@@ -27,6 +27,8 @@ import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 /* Note List page */
 class NoteScreen extends Component {
 
+
+    /* Create information for user to create, edit, delete notes */
     constructor(props){
 
         super(props);
@@ -51,21 +53,27 @@ class NoteScreen extends Component {
         }
     } /* END CONSTRUCTOR */
 
+
+    /* https://reactjs.org/docs/react-component.html#componentdidmount */
     componentDidMount(){
         this.renderNotelist(this.state.noteItems);
     }
 
-  
+    /* Information for triggering click events on table row
+    https://stackoverflow.com/questions/37771316/react-triggering-click-event-on-table-row */  
     fetchDetails = (e) => {
         const data = e.target.getAttribute('data-item');
         console.log('We need to get the details for ', data);
     }
 
+    /* Information for triggering click events on table row
+    https://stackoverflow.com/questions/37771316/react-triggering-click-event-on-table-row */
     isEmpty(obj) {
         return Object.keys(obj).length === 0;
     }
 
 
+    /* https://reactjs.org/docs/react-component.html#setstate */
     renderNotelist(noteItems) {
 
         var self = this;    
@@ -80,6 +88,8 @@ class NoteScreen extends Component {
 
 
     /* Show Notes Table Frame*/
+    /* Information for triggering click events on table row
+    https://stackoverflow.com/questions/37771316/react-triggering-click-event-on-table-row */
     renderResultRows(noteItems) {
 
         var self = this;
@@ -101,6 +111,8 @@ class NoteScreen extends Component {
     }
 
 
+    /* Information for triggering click events on table row
+    https://stackoverflow.com/questions/37771316/react-triggering-click-event-on-table-row */
     renderResultTable(data) {
 
         var self = this;
@@ -276,9 +288,9 @@ class NoteScreen extends Component {
         var titlev = this.state.edittitle;
         var contilev = this.state.editcontent;
 
-        if(index == 0){
+        if(index == 0) {
             titlev = value;
-        }else{
+        } else {
             contilev = value;
         }
 
@@ -307,6 +319,7 @@ class NoteScreen extends Component {
                     <br/>
                     <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleNoteEditData(event,i)}/>
                     <RaisedButton label="Cancel" primary={true} style={style} onClick={() => this.renderNotelist(this.state.noteItems)}/>
+                    
                 </div>
             </MuiThemeProvider>
         )
@@ -316,6 +329,7 @@ class NoteScreen extends Component {
     }
 
 
+    /* Edit Note */
     handleNoteEditData(event,i) {
 
         var self = this;
@@ -383,7 +397,6 @@ class NoteScreen extends Component {
     }
 
 
-
     /* Create Notes */
     handleNoteCreateClick(event) {
 
@@ -420,6 +433,7 @@ class NoteScreen extends Component {
       }
 
 
+      /* Upload Note info */
       handleNoteUploadData(event) {
 
           var self = this;

@@ -6,6 +6,8 @@ import Login from './Login';
 import Register from './Register';
 
 
+/* Loginscreen.js is the page which acts as a container to switch between login and 
+registration components defined in Login.js and Register.js respectively. */
 class Loginscreen extends Component {
 
 
